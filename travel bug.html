@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel bug</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--dark-color);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            bottom: -5px;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            margin-top: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* Destinations Section */
+        .destinations {
+            background-color: white;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .destination-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .destination-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .destination-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .destination-card:hover .destination-img img {
+            transform: scale(1.1);
+        }
+
+        .destination-info {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .destination-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .destination-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .destination-price {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .destination-rating {
+            color: #f39c12;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--light-color);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .features {
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            margin-right: 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Tours Section */
+        .tours-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .tours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .tour-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tour-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .tour-header {
+            position: relative;
+        }
+
+        .tour-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .tour-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .tour-card:hover .tour-img img {
+            transform: scale(1.1);
+        }
+
+        .tour-duration {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .tour-body {
+            padding: 20px;
+        }
+
+        .tour-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .tour-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .tour-price {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.3rem;
+        }
+
+        .tour-description {
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .testimonials .section-title {
+            color: white;
+        }
+
+        .testimonials .section-title:after {
+            background-color: white;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial-item {
+            padding: 30px;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-text:before, .testimonial-text:after {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.2);
+            position: absolute;
+        }
+
+        .testimonial-text:before {
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-text:after {
+            bottom: -40px;
+            right: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .author-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 20px;
+            border: 3px solid white;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .author-info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .cta .btn {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .cta .btn:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .blog-card:hover .blog-img img {
+            transform: scale(1.1);
+        }
+
+        .blog-body {
+            padding: 20px;
+        }
+
+        .blog-date {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .blog-excerpt {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--light-color);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-col p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+
+        .footer-newsletter input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-content, .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-img {
+                order: -1;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: var(--transition);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+            }
+
+            .testimonial-author {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .author-img {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .filter-btn {
+                margin: 5px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Путешественник<span>.</span></a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#destinations">Направления</a></li>
+                    <li><a href="#tours">Туры</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#blog">Блог</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Откройте для себя мир с нами</h1>
+                <p>Мы создаем незабываемые путешествия по лучшим направлениям мира. Откройте для себя новые культуры, насладитесь природой и получите уникальный опыт.</p>
+                <a href="#tours" class="btn">Найти тур</a>
+                
+                <div class="search-box">
+                    <form class="search-form">
+                        <div class="form-group">
+                            <label for="destination">Куда</label>
+                            <input type="text" id="destination" class="form-control" placeholder="Страна, город или регион">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Когда</label>
+                            <input type="date" id="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Тип тура</label>
+                            <select id="type" class="form-control">
+                                <option value="">Любой</option>
+                                <option value="beach">Пляжный</option>
+                                <option value="excursion">Экскурсионный</option>
+                                <option value="adventure">Приключенческий</option>
+                                <option value="ski">Горнолыжный</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-accent" style="width: 100%;">Поиск</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="section destinations" id="destinations">
+        <div class="container">
+            <h2 class="section-title">Популярные направления</h2>
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Турция">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Турция</h3>
+                        <div class="destination-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Анталья, Стамбул</span>
+                            <span class="destination-rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <p>Солнечные пляжи, богатая история и восточное гостеприимство.</p>
+                        <div class="destination-price">От 45 000 ₽</div>
+                    </div>
+                    <span class="badge">Хит сезона</span>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Тайланд">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Тайланд</h3>
+                        <div class="destination-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Пхукет, Паттайя</span>
+                            <span class="destination-rating"><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <p>Тропические острова, буддийские храмы и экзотическая кухня.</p>
+                        <div class="destination-price">От 65 000 ₽</div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="destination-img">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Франция">
+                    </div>
+                    <div class="destination-info">
+                        <h3>Франция</h3>
+                        <div class="destination-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Париж, Ницца</span>
+                            <span class="destination-rating"><i class="fas fa-star"></i> 4.7</span>
+                        </div>
+                        <p>Романтика, изысканная кухня и богатое культурное наследие.</p>
+                        <div class="destination-price">От 85 000 ₽</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="О нас">
+                </div>
+                <div class="about-text">
+                    <h2>О нашем турагентстве</h2>
+                    <p>Мы - команда профессиональных путешественников, которая уже более 10 лет создает незабываемые туры по всему миру. Наша миссия - сделать ваше путешествие комфортным, безопасным и наполненным яркими эмоциями.</p>
+                    <p>Мы тщательно отбираем отели, экскурсии и маршруты, чтобы каждый наш клиент получил именно тот отдых, о котором мечтал.</p>
+                    
+                    <div class="features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <h4>100+ направлений</h4>
+                                <p>Мы работаем с более чем 100 направлениями по всему миру</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4>Профессиональные гиды</h4>
+                                <p>Наши гиды знают все секреты мест, которые вы посетите</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div>
+                                <h4>Поддержка 24/7</h4>
+                                <p>Мы всегда на связи, чтобы решить любые вопросы</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tours Section -->
+    <section class="section tours" id="tours">
+        <div class="container">
+            <h2 class="section-title">Наши туры</h2>
+            
+            <div class="tours-filter">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="beach">Пляжные</button>
+                <button class="filter-btn" data-filter="excursion">Экскурсионные</button>
+                <button class="filter-btn" data-filter="adventure">Приключенческие</button>
+                <button class="filter-btn" data-filter="ski">Горнолыжные</button>
+            </div>
+            
+            <div class="tours-grid">
+                <div class="tour-card" data-category="beach">
+                    <div class="tour-header">
+                        <div class="tour-img">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Отдых в ОАЭ">
+                        </div>
+                        <span class="tour-duration"><i class="fas fa-clock"></i> 10 дней</span>
+                    </div>
+                    <div class="tour-body">
+                        <h3 class="tour-title">Роскошный отдых в Дубае</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ОАЭ, Дубай</span>
+                            <span class="tour-price">75 000 ₽</span>
+                        </div>
+                        <p class="tour-description">Отдых в 5-звездочном отеле с видом на море и посещение главных достопримечательностей Дубая.</p>
+                        <a href="#" class="btn">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-category="excursion">
+                    <div class="tour-header">
+                        <div class="tour-img">
+                            <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Рим и Флоренция">
+                        </div>
+                        <span class="tour-duration"><i class="fas fa-clock"></i> 8 дней</span>
+                    </div>
+                    <div class="tour-body">
+                        <h3 class="tour-title">Италия: Рим и Флоренция</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Италия</span>
+                            <span class="tour-price">68 000 ₽</span>
+                        </div>
+                        <p class="tour-description">Экскурсионный тур по самым знаковым местам Италии с профессиональным гидом.</p>
+                        <a href="#" class="btn">Подробнее</a>
+                    </div>
+                </div>
+
+                <div class="tour-card" data-category="adventure">
+                    <div class="tour-header">
+                        <div class="tour-img">
+                            <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Сафари в Танзании">
+                        </div>
+                        <span class="tour-duration"><i class="fas fa-clock"></i> 12 дней</span>
+                    </div>
+                    <div class="tour-body">
+                        <h3 class="tour-title">Сафари в Танзании</h3>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> Танзания</span>
+                            <span class="tour-price">120 000 ₽</span>
+                        </div>
+                        <p class="tour-description">Незабываемое приключение с посещением национальных парков Серенгети и Нгоронгоро.</p>
+                        <a href="#" class="btn">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="#" class="btn">Все туры</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">Отзывы наших клиентов</h2>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-item">
+                    <div class="testimonial-text">
+                        Отдыхали в Турции через это агентство - все было организовано на высшем уровне. Отель соответствовал описанию, трансферы без задержек, гид очень профессиональный. Обязательно обратимся снова!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Марина">
+                        </div>
+                        <div class="author-info">
+                            <h4>Марина Иванова</h4>
+                            <p>Турция, июнь 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Готовы к незабываемому путешествию?</h2>
+            <p>Оставьте заявку и наш менеджер подберет для вас идеальный тур с учетом всех ваших пожеланий</p>
+            <a href="#contact" class="btn">Оставить заявку</a>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="section blog" id="blog">
+        <div class="container">
+            <h2 class="section-title">Полезные статьи</h2>
+            
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Советы путешественникам">
+                    </div>
+                    <div class="blog-body">
+                        <span class="blog-date"><i class="far fa-calendar-alt"></i> 15 мая 2023</span>
+                        <h3 class="blog-title">10 советов для первого путешествия за границу</h3>
+                        <p class="blog-excerpt">Как подготовиться к первой поездке за рубеж, что взять с собой и каких ошибок избежать...</p>
+                        <a href="#" class="btn">Читать</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Лучшие пляжи">
+                    </div>
+                    <div class="blog-body">
+                        <span class="blog-date"><i class="far fa-calendar-alt"></i> 2 мая 2023</span>
+                        <h3 class="blog-title">Топ-5 пляжей мира по версии Lonely Planet</h3>
+                        <p class="blog-excerpt">От белоснежных песков Мальдив до диких пляжей Бразилии - лучшие места для пляжного отдыха...</p>
+                        <a href="#" class="btn">Читать</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-img">
+                        <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Бюджетные путешествия">
+                    </div>
+                    <div class="blog-body">
+                        <span class="blog-date"><i class="far fa-calendar-alt"></i> 20 апреля 2023</span>
+                        <h3 class="blog-title">Как путешествовать чаще: 7 способов экономии</h3>
+                        <p class="blog-excerpt">Проверенные лайфхаки, которые помогут вам путешествовать чаще и тратить меньше...</p>
+                        <a href="#" class="btn">Читать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Свяжитесь с нами</h2>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Наши контакты</h3>
+                    <p>Есть вопросы или хотите забронировать тур? Мы всегда рады помочь!</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Адрес</h4>
+                                <p>г. Москва, ул. Тверская, д. 10, офис 45</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Телефон</h4>
+                                <p>+7 (495) 123-45-67</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@puteshestvennik.ru</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>О компании</h3>
+                    <p>Турагентство "Путешественник" - это команда профессионалов, которая организует для вас незабываемые путешествия по всему миру.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Направления</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Европа</a></li>
+                        <li><a href="#">Азия</a></li>
+                        <li><a href="#">Америка</a></li>
+                        <li><a href="#">Африка</a></li>
+                        <li><a href="#">Россия</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Типы туров</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Пляжный отдых</a></li>
+                        <li><a href="#">Экскурсионные туры</a></li>
+                        <li><a href="#">Горнолыжные туры</a></li>
+                        <li><a href="#">Круизы</a></li>
+                        <li><a href="#">Приключенческие туры</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Подписаться на рассылку</h3>
+                    <p>Получайте лучшие предложения и новости первыми</p>
+                    <form class="footer-newsletter">
+                        <input type="email" placeholder="Ваш email" required>
+                        <button type="submit" class="btn">Подписаться</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Тур агентство "Путешественник". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            header.classList.toggle('header-scrolled', window.scrollY > 50);
+        });
+        
+        // Tours filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const tourCards = document.querySelectorAll('.tour-card');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                tourCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
